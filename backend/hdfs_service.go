@@ -18,7 +18,6 @@ type HdfsService struct {
 	ctx    context.Context
 	mu     sync.Mutex
 	client *hdfs.Client
-	connID string // 当前连接ID
 }
 
 func NewHdfsService() *HdfsService {
@@ -88,7 +87,7 @@ func (h *HdfsService) ListDir(dirPath string) ListResult {
 	defer h.mu.Unlock()
 
 	if h.client == nil {
-		return ListResult{Path: dirPath, Files: []FileItem{}}
+		return ListResult{Path: dirPath, Files: []FileItem{}, Error: "未连接到HDFS"}
 	}
 
 	if dirPath == "" {
@@ -97,7 +96,7 @@ func (h *HdfsService) ListDir(dirPath string) ListResult {
 
 	entries, err := h.client.ReadDir(dirPath)
 	if err != nil {
-		return ListResult{Path: dirPath, Files: []FileItem{}}
+		return ListResult{Path: dirPath, Files: []FileItem{}, Error: "读取目录失败: " + err.Error()}
 	}
 
 	var files []FileItem

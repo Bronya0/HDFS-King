@@ -26,6 +26,7 @@ type FileItem struct {
 type ListResult struct {
 	Path  string     `json:"path"`
 	Files []FileItem `json:"files"`
+	Error string     `json:"error,omitempty"`
 }
 
 // OperationResult 操作结果

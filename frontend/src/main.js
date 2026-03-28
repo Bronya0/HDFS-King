@@ -198,6 +198,9 @@ async function navigateTo(dirPath) {
   setLoading(true);
   try {
     const result = await getHdfsSvc().ListDir(dirPath);
+    if (result.error) {
+      showToast(result.error, 'error');
+    }
     state.currentPath = result.path || dirPath;
     state.files = result.files || [];
     state.selectedFile = null;
@@ -237,6 +240,9 @@ async function navigateWithoutHistory(dirPath) {
   setLoading(true);
   try {
     const result = await getHdfsSvc().ListDir(dirPath);
+    if (result.error) {
+      showToast(result.error, 'error');
+    }
     state.currentPath = result.path || dirPath;
     state.files = result.files || [];
     state.selectedFile = null;
@@ -579,7 +585,10 @@ function renderContent() {
 
     row.onclick = (e) => {
       state.selectedFile = file;
-      renderContent();
+      // Update selection visually without re-rendering the whole DOM
+      document.querySelectorAll('#file-tbody tr').forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      renderToolbar();
     };
 
     row.ondblclick = () => {
@@ -588,7 +597,9 @@ function renderContent() {
 
     row.oncontextmenu = (e) => {
       state.selectedFile = file;
-      renderContent();
+      document.querySelectorAll('#file-tbody tr').forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      renderToolbar();
       showContextMenu(e, file);
     };
   });
@@ -678,11 +689,13 @@ document.querySelector('#app').innerHTML = `
         <button class="nav-btn" id="btn-home" title="根目录">${ICONS.home}</button>
         <input class="path-input" id="path-input" value="/" />
       </div>
-      <div class="file-list-container" id="file-list-container" style="position:relative;">
-        <div class="welcome-state">
-          ${ICONS.server}
-          <div class="title">HDFS King</div>
-          <div class="hint">从左侧选择一个连接开始浏览</div>
+      <div class="content-wrapper" style="position:relative;flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <div class="file-list-container" id="file-list-container">
+          <div class="welcome-state">
+            ${ICONS.server}
+            <div class="title">HDFS King</div>
+            <div class="hint">从左侧选择一个连接开始浏览</div>
+          </div>
         </div>
         <div class="loading-overlay" id="loading-overlay" style="display:none;">
           <div class="spinner"></div>

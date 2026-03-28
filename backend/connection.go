@@ -105,9 +105,9 @@ func (cm *ConnectionManager) DeleteConnection(id string) OperationResult {
 func (cm *ConnectionManager) GetConnection(id string) *ConnectionInfo {
 	cm.mu.Lock()
 	defer cm.mu.Unlock()
-	for _, c := range cm.connections {
-		if c.ID == id {
-			return &c
+	for i := range cm.connections {
+		if cm.connections[i].ID == id {
+			return &cm.connections[i]
 		}
 	}
 	return nil
