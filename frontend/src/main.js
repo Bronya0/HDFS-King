@@ -78,7 +78,7 @@ async function addConnection() {
     </div>
     <div class="form-group">
       <label>NameNode 地址</label>
-      <input id="modal-conn-addr" placeholder="namenode:9000" />
+      <input id="modal-conn-addr" placeholder="bsa1003:9879（WebHDFS HTTP 端口）" />
     </div>
     <div class="form-group">
       <label>用户名（可选）</label>
