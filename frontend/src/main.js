@@ -77,8 +77,9 @@ async function addConnection() {
       <input id="modal-conn-name" placeholder="My HDFS Cluster" />
     </div>
     <div class="form-group">
-      <label>NameNode 地址</label>
-      <input id="modal-conn-addr" placeholder="bsa1003:9879（WebHDFS HTTP 端口）" />
+      <label>NameNode 地址 <small style="color:#888;font-weight:normal">（WebHDFS HTTP 端口）</small></label>
+      <input id="modal-conn-addr" placeholder="namenode:9870 或 http://namenode:9879" />
+      <div style="font-size:12px;color:#888;margin-top:4px">格式：<code>主机名:端口</code> 或 <code>http://主机名:端口</code>，端口为 HDFS Web UI 端口（非 RPC 8020）</div>
     </div>
     <div class="form-group">
       <label>用户名（可选）</label>
@@ -112,8 +113,9 @@ async function editConnection(id) {
       <input id="modal-conn-name" value="${escapeHtml(conn.name)}" />
     </div>
     <div class="form-group">
-      <label>NameNode 地址</label>
-      <input id="modal-conn-addr" value="${escapeHtml(conn.address)}" />
+      <label>NameNode 地址 <small style="color:#888;font-weight:normal">（WebHDFS HTTP 端口）</small></label>
+      <input id="modal-conn-addr" value="${escapeHtml(conn.address)}" placeholder="namenode:9870 或 http://namenode:9879" />
+      <div style="font-size:12px;color:#888;margin-top:4px">格式：<code>主机名:端口</code> 或 <code>http://主机名:端口</code>，端口为 HDFS Web UI 端口</div>
     </div>
     <div class="form-group">
       <label>用户名（可选）</label>
